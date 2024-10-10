@@ -3,19 +3,24 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { useState } from "react";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `${backendUrl}login`,
+        `${backendUrl}register`,
         { ...inputValue },
-        { withCredentials: true }
       );
       const { success, message, existinguser } = data;
 

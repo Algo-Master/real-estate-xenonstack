@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Routes>
           {/* <Route path="/" element={<Landingpage />} /> */}
-          <Route path="/login" element={<Loginpage />} />
+          <Route path="/" element={<Loginpage />} />
           <Route path="/register" element={<Registrationpage />} />
           {/* Catch-all route for 404 Not Found page */}
           {/* <Route path="*" element={<NotFoundPage />} /> */}

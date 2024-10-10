@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const { DBConnection } = require("./database/db");
-const User = require("./models/User");
+const User = require("./database/User");
 
 const corsOptions = {
   origin: "http://localhost:5173",
@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.post("/register", async (req, res) => {
   try {
+    console.log("Request recieved");
     // Get all the data from the frontend
     const { firstName, lastName, email, password } = req.body;
 
@@ -94,26 +95,6 @@ app.post("/login", async (req, res) => {
     if (!pass) {
       res.status(400).send("The login credentials doesn't match");
     }
-
-    // Generate a token for user and send it
-    const token = jwt.sign(
-      { id: existinguser._id, role: existinguser.role },
-      process.env.SECRET_KEY,
-      {
-        algorithm: "HS256",
-        expiresIn: "1h",
-      }
-    );
-    // existinguser.token = token;
-    existinguser.password = undefined;
-
-    // Store token in Cookies with options
-    const options = {
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-      httpOnly: true, // only manipulated by ur server not by frontend/client
-      secure: true, // Ensure cookies are sent over HTTPS only
-      sameSite: "None", // Allow cookies to be sent with cross-origin requests
-    };
 
     // Send the data
     res.status(200).cookie("token", token, options).json({
